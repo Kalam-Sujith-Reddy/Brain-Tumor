@@ -9,7 +9,7 @@ import streamlit as st
 import settings
 import helper
 
-# Setting page layout
+# Set page config FIRST before anything else
 st.set_page_config(
     page_title="Brain Tumor Detection",
     page_icon="🧠",
@@ -19,6 +19,7 @@ st.set_page_config(
 
 # Main page heading
 st.title("Brain Tumor Detection using CNN-CatBoost")
+
 
 # Load Pre-trained ML Model
 model_path = Path(settings.PT_MODEL)
