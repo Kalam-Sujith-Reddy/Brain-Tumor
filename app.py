@@ -37,16 +37,23 @@ uploaded_file = st.file_uploader("Choose an image...", type=("jpg", "jpeg", "png
 if uploaded_file is not None:
     uploaded_image = PIL.Image.open(uploaded_file)
 
-    st.markdown("**Input Image**")
-    st.image(uploaded_image, caption="Uploaded Image", width=400)
+# Set up side-by-side layout
+col1, col2 = st.columns(2)
 
-    # Button below input image
-    if st.button("Detect Tumor"):
-        try:
-            res = model.predict(uploaded_image)
-            res_plotted = res[0].plot()[:, :, ::-1]
-            st.markdown("**Detected Image**")
-            st.image(res_plotted, caption="Detected Image", width=400)
-        except Exception as e:
-            st.error("Tumor detection failed.")
-            st.error(e)
+with col1:
+    if uploaded_file is not None:
+        uploaded_image = PIL.Image.open(uploaded_file)
+        st.markdown("**Input Image**")
+        st.image(uploaded_image, caption="Uploaded Image", width=400)
+
+        # Button placed below input image
+        if st.button("Detect Tumor"):
+            try:
+                res = model.predict(uploaded_image)
+                res_plotted = res[0].plot()[:, :, ::-1]
+                with col2:
+                    st.markdown("**Detected Image**")
+                    st.image(res_plotted, caption="Detected Image", width=400)
+            except Exception as e:
+                st.error("Tumor detection failed.")
+                st.error(e)
